@@ -1,4 +1,4 @@
-// src/components/Lottery.js
+
 import React, { useState, useEffect } from 'react';
 import NumberSelection from './NumberSelection';
 import DrawButton from './DrawButton';
