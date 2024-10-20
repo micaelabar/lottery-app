@@ -1,54 +1,102 @@
 import React, { useState, useEffect } from 'react';
 import NumberSelection from './NumberSelection';
-import DrawButton from './DrawButton';
 import Results from './Results';
+import { Button, Container, Typography, IconButton, Box } from '@mui/material';
+import ReplayIcon from '@mui/icons-material/Replay'; 
 
 const Lottery = () => {
     const [selectedNumbers, setSelectedNumbers] = useState([]);
     const [winningNumbers, setWinningNumbers] = useState([]);
+    const [isDrawn, setIsDrawn] = useState(false);
     const [message, setMessage] = useState('');
 
-    const handleSelection = (number) => {
-        setSelectedNumbers(prev => {
-            if (prev.includes(number)) {
-                return prev.filter(n => n !== number); // Remove if already selected
-            } else {
-                return [...prev, number]; // Add if not selected
-            }
-        });
+    
+    const handleNumberSelect = (number) => {
+        if (selectedNumbers.includes(number)) {
+            setSelectedNumbers(selectedNumbers.filter(n => n !== number));
+        } else if (selectedNumbers.length < 6) {
+            setSelectedNumbers([...selectedNumbers, number]);
+        }
     };
 
-    const drawNumbers = () => {
-        const winners = [];
-        while (winners.length < 6) { // Draw 6 numbers
-            const num = Math.floor(Math.random() * 49) + 1; // Numbers between 1 and 49
-            if (!winners.includes(num)) {
-                winners.push(num);
+    
+    const drawWinningNumbers = () => {
+        const drawnNumbers = [];
+        while (drawnNumbers.length < 6) {
+            const num = Math.floor(Math.random() * 49) + 1;
+            if (!drawnNumbers.includes(num)) {
+                drawnNumbers.push(num);
             }
         }
-        setWinningNumbers(winners);
+        setWinningNumbers(drawnNumbers);
+        setIsDrawn(true);
     };
 
+    
+    const resetGame = () => {
+        setSelectedNumbers([]);
+        setWinningNumbers([]);
+        setIsDrawn(false);
+        setMessage('');
+    };
+
+    
     useEffect(() => {
-        if (winningNumbers.length > 0) {
+        if (isDrawn) {
             const matches = selectedNumbers.filter(num => winningNumbers.includes(num));
             if (matches.length === 6) {
-                setMessage('Congratulations! You have won with all your numbers!');
+                setMessage('¡Felicidades! Has acertado todos los números.');
             } else if (matches.length > 0) {
-                setMessage(`You matched ${matches.length} number(s): ${matches.join(', ')}`);
+                setMessage(`Has acertado ${matches.length} número(s): ${matches.join(', ')}`);
             } else {
-                setMessage('Sorry, you didn’t match any numbers.');
+                setMessage('Lo sentimos, no has acertado ningún número.');
             }
         }
-    }, [winningNumbers, selectedNumbers]);
+    }, [winningNumbers, selectedNumbers, isDrawn]);
 
     return (
-        <div>
-            <h1>Lottery Draw Simulation</h1>
-            <NumberSelection handleSelection={handleSelection} selectedNumbers={selectedNumbers} />
-            <DrawButton drawNumbers={drawNumbers} />
-            <Results winningNumbers={winningNumbers} message={message} />
-        </div>
+        <Box
+            sx={{
+                backgroundImage: 'url(/path/to/your/image.jpg)', // Ruta de la imagen de fondo
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                minHeight: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                textAlign: 'center',
+            }}
+        >
+            <Container>
+                <Typography variant="h4" gutterBottom>Lotería Interactiva</Typography>
+
+                
+                <NumberSelection selectedNumbers={selectedNumbers} onSelect={handleNumberSelect} />
+
+               
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={drawWinningNumbers}
+                    disabled={selectedNumbers.length < 6}
+                    style={{ marginTop: '20px', marginRight: '10px' }}
+                >
+                    Sortear
+                </Button>
+
+                
+                <IconButton
+                    color="secondary"
+                    onClick={resetGame}
+                    style={{ marginTop: '20px' }}
+                >
+                    <ReplayIcon />
+                </IconButton>
+
+                
+                {isDrawn && <Results winningNumbers={winningNumbers} message={message} />}
+            </Container>
+        </Box>
     );
 };
 
