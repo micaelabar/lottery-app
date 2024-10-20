@@ -1,4 +1,4 @@
-// src/components/NumberSelection.js
+
 import React from 'react';
 
 const NumberSelection = ({ handleSelection, selectedNumbers }) => {
