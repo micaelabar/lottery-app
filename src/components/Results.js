@@ -1,4 +1,4 @@
-// src/components/Results.js
+
 import React from 'react';
 
 const Results = ({ winningNumbers, message }) => {
