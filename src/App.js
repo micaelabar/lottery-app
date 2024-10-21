@@ -1,13 +1,15 @@
 
 import React from 'react';
 import Lottery from './components/Lottery';
+import { CssBaseline } from '@mui/material';
 
-const App = () => {
+function App() {
     return (
-        <div>
+        <>
+            <CssBaseline />
             <Lottery />
-        </div>
+        </>
     );
-};
+}
 
 export default App;

@@ -1,12 +1,18 @@
-import React from 'react';
 
-const Results = ({ winningNumbers, message }) => {
+import React from 'react';
+import { Typography, Box } from '@mui/material';
+
+const Results = ({ selectedNumbers, winningNumbers }) => {
+    const matches = selectedNumbers.filter(number => winningNumbers.includes(number));
+
     return (
-        <div>
-            <h2>Winning Numbers</h2>
-            <p>{winningNumbers.join(', ') || 'No numbers drawn yet.'}</p>
-            <h3>{message}</h3>
-        </div>
+        <Box mt={4}>
+            <Typography variant="h6">Números Ganadores: {winningNumbers.join(', ')}</Typography>
+            <Typography variant="h6">Tus Números: {selectedNumbers.join(', ')}</Typography>
+            <Typography variant="h5" color={matches.length > 0 ? 'green' : 'red'}>
+                {matches.length > 0 ? `¡Has acertado ${matches.length} número(s)!` : 'No has acertado ningún número.'}
+            </Typography>
+        </Box>
     );
 };
 

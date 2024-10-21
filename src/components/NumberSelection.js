@@ -1,24 +1,22 @@
+
 import React from 'react';
+import { Grid, Button } from '@mui/material';
 
-const NumberSelection = ({ handleSelection, selectedNumbers }) => {
-    const numbers = Array.from({ length: 49 }, (_, index) => index + 1); // Numbers from 1 to 49
-
+const NumberSelection = ({ selectedNumbers, onSelect }) => {
     return (
-        <div>
-            <h2>Select Your Numbers</h2>
-            {numbers.map(number => (
-                <button
-                    key={number}
-                    onClick={() => handleSelection(number)}
-                    style={{
-                        backgroundColor: selectedNumbers.includes(number) ? 'lightgreen' : 'lightgray',
-                        margin: '5px'
-                    }}
-                >
-                    {number}
-                </button>
+        <Grid container spacing={2}>
+            {Array.from({ length: 50 }, (_, i) => i + 1).map((number) => (
+                <Grid item xs={2} key={number}>
+                    <Button
+                        variant={selectedNumbers.includes(number) ? 'contained' : 'outlined'}
+                        color="primary"
+                        onClick={() => onSelect(number)}
+                    >
+                        {number}
+                    </Button>
+                </Grid>
             ))}
-        </div>
+        </Grid>
     );
 };
 
