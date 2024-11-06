@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, Checkbox, FormControlLabel } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Grid } from '@mui/material';
 
 interface SelectNumbersProps {
   selectedNumbers: number[];
@@ -20,13 +20,13 @@ const SelectNumbers: React.FC<SelectNumbersProps> = ({ selectedNumbers, setSelec
       <h3>Select your numbers (1 to 50):</h3>
       <Grid container spacing={2}>
         {allNumbers.map(number => (
-          <Grid item xs={2} key={number}>
+          <Grid item key={number}>
             <FormControlLabel
               control={
-                <Checkbox 
-                  checked={selectedNumbers.includes(number)} 
-                  onChange={() => handleChange(number)} 
-                  color="primary"
+                <Checkbox
+                  checked={selectedNumbers.includes(number)}
+                  onChange={() => handleChange(number)}
+                  disabled={selectedNumbers.length >= 6 && !selectedNumbers.includes(number)}
                 />
               }
               label={number.toString()}
@@ -39,3 +39,4 @@ const SelectNumbers: React.FC<SelectNumbersProps> = ({ selectedNumbers, setSelec
 };
 
 export default SelectNumbers;
+
